@@ -9,7 +9,7 @@ from datetime import datetime
 import pytz
 
 # ========== CONFIGURATION ==========
-BOT_TOKEN = "7964248140:AAE0_KzMudMLd1JsVGKEqhsVBDiKTVucLXg"
+BOT_TOKEN = "7964248140:7941077439:AAEUf4Crt9Ca6N-N8N_tOB30jsHln5LxZWg"
 API_ID = 27220846
 API_HASH = "ade7381d9e0ee7b824d1970b692b8ee9"
 MONGO_URL = "mongodb+srv://mdashekurislam8:KNiF0a1miKLkV4qy@rx.x3nlhsv.mongodb.net/?retryWrites=true&w=majority&appName=Rx"
