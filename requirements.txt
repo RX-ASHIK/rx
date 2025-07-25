@@ -1,11 +1,5 @@
-pyrogram==2.0.106
-tgcrypto
-pymongo
-dnspython
-requests
-pytz
 python-telegram-bot==20.0
-python-dotenv==1.0.0
-uuid
+python-dotenv>=1.0.0
 sqlite3
+uuid
 python-3.9.16
