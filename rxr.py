@@ -10,9 +10,9 @@ import os
 load_dotenv()
 
 # কনফিগারেশন
-BOT_TOKEN = os.getenv("BOT_TOKEN")  # .env ফাইলে রাখুন
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 REQUIRED_GROUP = "@EarningMasterbd24"
-MINI_APP_URL = "https://earningmaster244.blogspot.com/?m=1&ref={ref_code}"
+MINI_APP_URL = "https://earningmaster244.blogspot.com/?m=1&ref={ref_code}"  # সঠিক URL ফরম্যাট
 
 # ডাটাবেস সেটআপ
 def init_db():
@@ -32,20 +32,22 @@ def init_db():
 init_db()
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if context.args:
+    if context.args:  # রেফারেল লিংক দিয়ে এসেছে
         await track_referral(update, context)
         return
 
     user = update.effective_user
     try:
+        # গ্রুপ মেম্বারশিপ চেক
         member = await context.bot.get_chat_member(REQUIRED_GROUP, user.id)
         if member.status not in ["member", "administrator", "creator"]:
             await update.message.reply_html(
                 f"⚠️ <b>Access Denied!</b>\n\n"
-                f"Please join {REQUIRED_GROUP} first."
+                f"Join {REQUIRED_GROUP} first, then try /start again."
             )
             return
 
+        # রেফারেল কোড জেনারেট বা ফেচ
         conn = sqlite3.connect('/opt/render/project/src/referral.db')
         cursor = conn.cursor()
         cursor.execute('SELECT referral_code FROM users WHERE user_id = ?', (user.id,))
@@ -59,50 +61,30 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
             conn.commit()
 
+        # সঠিক মিনি অ্যাপ URL তৈরি
+        mini_app_url = f"https://t.me/{context.bot.username}/app?startapp={ref_code}"  # Telegram Web App লিংক
+        blog_url = MINI_APP_URL.format(ref_code=ref_code)  # আপনার ব্লগ URL
+
         keyboard = [
-            [InlineKeyboardButton("✨ Open Mini App", url=MINI_APP_URL.format(ref_code=ref_code))],
+            [InlineKeyboardButton("✨ Open Mini App", web_app=WebAppInfo(url=blog_url))],  # WebAppInfo ব্যবহার
             [InlineKeyboardButton("📊 My Referrals", callback_data="my_refs")]
         ]
+        
         await update.message.reply_html(
-            f"🎉 Welcome, {user.first_name}!\n\n"
-            f"Your referral link:\n<code>https://t.me/{context.bot.username}?start={ref_code}</code>",
+            f"🎉 <b>Welcome, {user.first_name}!</b>\n\n"
+            f"🔗 Your referral link:\n<code>https://t.me/{context.bot.username}?start={ref_code}</code>\n\n"
+            "Click below to open the Mini App:",
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
+
     except Exception as e:
         logging.error(f"Error: {e}")
-        await update.message.reply_text("❌ Bot error. Please try later.")
+        await update.message.reply_text("❌ Bot error. Contact admin.")
     finally:
         if 'conn' in locals():
             conn.close()
 
-async def track_referral(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    ref_code = context.args[0] if context.args else None
-    if ref_code:
-        conn = sqlite3.connect('/opt/render/project/src/referral.db')
-        try:
-            cursor = conn.cursor()
-            cursor.execute(
-                'UPDATE users SET referrals = referrals + 1 WHERE referral_code = ?',
-                (ref_code,)
-            )
-            conn.commit()
-        finally:
-            conn.close()
-    await start(update, context)
-
-async def show_referrals(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
-    
-    conn = sqlite3.connect('/opt/render/project/src/referral.db')
-    try:
-        cursor = conn.cursor()
-        cursor.execute('SELECT referrals FROM users WHERE user_id = ?', (query.from_user.id,))
-        result = cursor.fetchone()
-        count = result[0] if result else 0
-        await query.edit_message_text(f"📊 Total referrals: {count}")
-    finally:
-        conn.close()
+# ... (বাকি কোড একই রেখে দিন track_referral এবং show_referrals ফাংশন)
 
 def main():
     app = Application.builder().token(BOT_TOKEN).build()
