@@ -4,3 +4,7 @@ pymongo
 dnspython
 requests
 pytz
+python-telegram-bot==20.0
+python-dotenv==1.0.0
+uuid
+sqlite3
