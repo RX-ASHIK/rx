@@ -10,7 +10,7 @@ import os
 load_dotenv()
 
 # কনফিগারেশন
-BOT_TOKEN = os.getenv("7641873839:AAHt4JsRYUMQDHrrEHdOB-No3ZrtJQeDxXc")  # .env ফাইলে রাখুন
+BOT_TOKEN = os.getenv("BOT_TOKEN")  # .env ফাইলে রাখুন
 REQUIRED_GROUP = "@EarningMasterbd24"
 MINI_APP_URL = "https://earningmaster244.blogspot.com/?m=1&ref={ref_code}"
 
