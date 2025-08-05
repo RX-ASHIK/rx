@@ -1,7 +1,6 @@
 import os
 import asyncio
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from datetime import datetime, time, timedelta
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes, MessageHandler, filters
 import logging
 import sqlite3
@@ -17,10 +16,10 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Configuration
-BOT_TOKEN = "YOUR_BOT_TOKEN"
+BOT_TOKEN = "7641873839:AAHt4JsRYUMQDHrrEHdOB-No3ZrtJQeDxXc"
 CHANNEL_USERNAME = "@EarningMasterbd24"
 SUPPORT_USERNAME = "@EarningMaster_help"
-ADMIN_ID = "YOUR_ADMIN_ID"
+ADMIN_ID = "5989402185"
 TIMEZONE = pytz.timezone("Asia/Dhaka")  # Bangladesh timezone
 
 # Emoji Decorations
@@ -355,5 +354,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
