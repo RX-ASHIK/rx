@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 BOT_TOKEN = "7641873839:AAHt4JsRYUMQDHrrEHdOB-No3ZrtJQeDxXc"
 CHANNEL_USERNAME = "@EarningMasterbd24"
 SUPPORT_USERNAME = "@EarningMaster_help"
-ADMIN_ID = "YOUR_ADMIN_ID"
+ADMIN_ID = "5989402185"
 
 # Emoji Decorations
 EMOJI = {
