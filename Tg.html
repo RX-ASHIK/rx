@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdNova Pro - Premium Earning App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src='//libtl.com/sdk.js' data-zone='9683187' data-sdk='show_9683187'></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-light: #a29bfe;
+            --secondary: #fd79a8;
+            --accent: #00cec9;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #d63031;
+            --vip: #f39c12;
+            --light: #f5f6fa;
+            --dark: #2d3436;
+            --gray: #b2bec3;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --bg-gradient: linear-gradient(135deg, #1a1f38, #2d3447);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: var(--bg-gradient);
+            color: white;
+            padding: 15px;
+            padding-bottom: 80px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            display: none;
+        }
+        
+        .active-section {
+            display: block;
+        }
+        
+        /* Header */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo i {
+            font-size: 1.5rem;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            border: 2px solid var(--accent);
+        }
+        
+        /* VIP Banner */
+        .vip-banner {
+            background: linear-gradient(135deg, var(--vip), #e67e22);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+        }
+        
+        .vip-content {
+            flex: 1;
+        }
+        
+        .vip-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .vip-title i {
+            font-size: 1.2rem;
+        }
+        
+        .vip-desc {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .vip-btn {
+            background: white;
+            color: var(--vip);
+            border: none;
+            border-radius: 20px;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .vip-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        /* Card Styles */
+        .card {
+            background: rgba(30, 35, 58, 0.8);
+            border-radius: 16px;
+            padding: 22px;
+            margin: 18px 0;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--accent);
+        }
+        
+        .card-title i {
+            font-size: 1.4rem;
+        }
+        
+        /* Wallet Card */
+        .wallet-card {
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.2), rgba(0, 206, 201, 0.15));
+        }
+        
+        .wallet-card.vip {
+            border-color: var(--vip);
+            background: linear-gradient(135deg, rgba(243, 156, 18, 0.2), rgba(230, 126, 34, 0.15));
+        }
+        
+        .vip-badge {
+            background: var(--vip);
+            color: white;
+            font-size: 13px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-left: 10px;
+            font-weight: 600;
+        }
+        
+        .balance-title {
+            font-size: 17px;
+            color: var(--gray);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .balance-amount {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 22px;
+            background: linear-gradient(135deg, #fff, #a29bfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .earnings-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: var(--gray);
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 6px;
+            margin: 18px 0;
+            gap: 6px;
+        }
+        
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: var(--gray);
+        }
+        
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Payment Methods */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 18px 0;
+        }
+        
+        .method-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .method-card.active {
+            border-color: var(--primary);
+            background: rgba(108, 92, 231, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
+        }
+        
+        .method-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+        
+        .method-name {
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 15px;
+            margin-bottom: 8px;
+            color: var(--gray);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: rgba(30, 35, 58, 0.6);
+            color: white;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.3);
+        }
+        
+        /* Buttons */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #5a4fd8);
+            color: white;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+        }
+        
+        .btn-vip {
+            background: linear-gradient(135deg, var(--vip), #e67e22);
+            color: white;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+        }
+        
+        .btn-vip:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
+        }
+        
+        /* Payment Details */
+        .payment-details {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 18px;
+            margin: 18px 0;
+            display: none;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .payment-details.active {
+            display: block;
+        }
+        
+        .payment-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .payment-label {
+            font-weight: 500;
+            color: var(--gray);
+        }
+        
+        .payment-value {
+            font-weight: 600;
+        }
+        
+        /* Ad Container */
+        .ad-container {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .ad-icon {
+            font-size: 52px;
+            color: var(--accent);
+            margin-bottom: 20px;
+            background: rgba(0, 206, 201, 0.1);
+            width: 90px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+        }
+        
+        .ad-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: white;
+        }
+        
+        .ad-description {
+            color: var(--gray);
+            margin-bottom: 24px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .ad-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 24px;
+            font-size: 15px;
+            color: var(--gray);
+        }
+        
+        .ad-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        /* Transaction History */
+        .transaction-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .transaction-info {
+            flex: 1;
+        }
+        
+        .transaction-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .transaction-meta {
+            font-size: 13px;
+            color: var(--gray);
+        }
+        
+        .transaction-amount {
+            font-weight: 600;
+            min-width: 80px;
+            text-align: right;
+            font-size: 16px;
+        }
+        
+        .transaction-amount.credit {
+            color: var(--success);
+        }
+        
+        .transaction-amount.debit {
+            color: var(--danger);
+        }
+        
+        /* Admin Panel */
+        .admin-section {
+            margin-bottom: 22px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        /* Referral Section */
+        .referral-container {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .referral-code {
+            background: rgba(108, 92, 231, 0.2);
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: 600;
+            margin: 18px 0;
+            color: var(--primary);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+        
+        .referral-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 24px 0;
+        }
+        
+        .referral-stat {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 18px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .referral-value {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+        
+        /* Profile Section */
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 24px 0;
+        }
+        
+        .profile-stat {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 18px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            background: rgba(26, 31, 56, 0.95);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 0;
+            font-size: 12px;
+            color: var(--gray);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item i {
+            font-size: 22px;
+            margin-bottom: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item.active {
+            color: var(--accent);
+        }
+        
+        .nav-item.active i {
+            color: var(--accent);
+            transform: translateY(-5px);
+        }
+        
+        .nav-item.vip i {
+            color: var(--vip);
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            border-top: 5px solid var(--accent);
+            animation: spin 1s linear infinite;
+            margin: 50px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 12px;
+            z-index: 10000;
+            display: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-weight: 500;
+        }
+        
+        .notification.error {
+            background: var(--danger);
+        }
+        
+        .notification.warning {
+            background: var(--warning);
+            color: var(--dark);
+        }
+        
+        .notification.info {
+            background: var(--primary);
+        }
+        
+        /* Premium Section */
+        .premium-container {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .premium-card {
+            background: linear-gradient(135deg, rgba(243, 156, 18, 0.15), rgba(230, 126, 34, 0.1));
+            border: 1px solid rgba(243, 156, 18, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .premium-icon {
+            font-size: 48px;
+            color: var(--vip);
+            margin-bottom: 20px;
+        }
+        
+        .premium-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--vip);
+        }
+        
+        .premium-features {
+            text-align: left;
+            margin: 25px 0;
+        }
+        
+        .premium-feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .premium-feature i {
+            color: var(--vip);
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading indicator -->
+    <div class="spinner" id="loadingSpinner"></div>
+    
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+    
+    <!-- Earn Section -->
+    <div class="container active-section" id="earnSection">
+        <div class="app-header">
+            <div class="logo"><i class="fas fa-rocket"></i>AdNova Pro</div>
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div id="userTelegram">@username</div>
+            </div>
+        </div>
+        
+        <!-- VIP Banner -->
+        <div class="vip-banner" id="vipOfferBanner">
+            <div class="vip-content">
+                <div class="vip-title"><i class="fas fa-crown"></i>VIP Membership</div>
+                <div class="vip-desc">Deposit ৳500 and earn 2-3x more for 15 days!</div>
+            </div>
+            <button class="vip-btn" id="vipUpgradeBtn">UPGRADE</button>
+        </div>
+        
+        <!-- Wallet Card -->
+        <div class="card wallet-card" id="walletCard">
+            <div class="balance-title">
+                <i class="fas fa-wallet"></i> Current Balance
+                <span class="vip-badge" id="vipBadge" style="display: none;">VIP</span>
+            </div>
+            <div class="balance-amount">
+                ৳<span id="userBalance">0.00</span>
+            </div>
+            
+            <div class="earnings-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="dailyEarnings">৳0.00</div>
+                    <div class="stat-label">Today</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="totalEarnings">৳0.00</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="adsWatched">0/50</div>
+                    <div class="stat-label">Ads Today</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Ad Section -->
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-ad"></i> Watch Ads & Earn
+            </div>
+            
+            <div class="ad-container">
+                <div class="ad-icon">
+                    <i class="fas fa-ad"></i>
+                </div>
+                <h3 class="ad-title">Watch Ads & Earn Money</h3>
+                <p class="ad-description" id="earnRateText">Earn ৳0.10 to ৳0.30 per ad (90% chance)</p>
+                
+                <button class="btn btn-vip" id="watchAdBtn">
+                    <i class="fas fa-play-circle"></i> Watch Now (15s)
+                </button>
+                
+                <div class="ad-stats">
+                    <div class="ad-stat">
+                        <i class="fas fa-bolt"></i>
+                        <span>50 ads/day limit</span>
+                    </div>
+                    <div class="ad-stat" id="vipEarnRate" style="display: none;">
+                        <i class="fas fa-crown"></i>
+                        <span>VIPs earn 2-3x more!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Withdraw Section -->
+    <div class="container" id="withdrawSection">
+        <div class="app-header">
+            <div class="logo"><i class="fas fa-rocket"></i>AdNova Pro</div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-money-bill-wave"></i> Withdraw Money
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Amount (Minimum ৳200)</label>
+                <input type="number" class="form-input" id="withdrawAmount" placeholder="Enter amount">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Payment Method</label>
+                <select class="form-input" id="withdrawMethod">
+                    <option value="bkash">Bkash</option>
+                    <option value="nagad">Nagad</option>
+                    <option value="rocket">Rocket</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Account Number</label>
+                <input type="text" class="form-input" id="accountNumber" placeholder="Enter your account number">
+            </div>
+            
+            <button class="btn btn-primary" id="submitWithdrawalBtn">
+                <i class="fas fa-paper-plane"></i> Request Withdrawal
+            </button>
+        </div>
+        
+        <!-- VIP Activation Section -->
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-crown"></i> Activate VIP
+            </div>
+            
+            <div class="premium-container">
+                <div class="premium-card">
+                    <div class="premium-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <div class="premium-title">VIP Membership</div>
+                    <p>Deposit ৳500 to activate VIP status for 15 days and earn 2-3x more per ad!</p>
+                    
+                    <div class="premium-features">
+                        <div class="premium-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Earn 2-3x more per ad</span>
+                        </div>
+                        <div class="premium-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Higher daily ad limits</span>
+                        </div>
+                        <div class="premium-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Priority withdrawal processing</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-vip" id="showDepositBtn">
+                        <i class="fas fa-crown"></i> Deposit ৳500 for VIP
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Deposit Section (Visible when VIP button clicked) -->
+        <div class="card" id="depositSection" style="display: none;">
+            <div class="card-title">
+                <i class="fas fa-coins"></i> Deposit for VIP
+            </div>
+            
+            <div class="payment-methods">
+                <div class="method-card active" data-method="bkash">
+                    <div class="method-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <div class="method-name">Bkash</div>
+                </div>
+                <div class="method-card" data-method="nagad">
+                    <div class="method-icon"><i class="fas fa-wallet"></i></div>
+                    <div class="method-name">Nagad</div>
+                </div>
+            </div>
+            
+            <div class="payment-details active" id="bkashDetails">
+                <div class="payment-info">
+                    <div class="payment-label">Account Number:</div>
+                    <div class="payment-value">+880 17XX-XXXXXX</div>
+                </div>
+                <div class="payment-info">
+                    <div class="payment-label">Account Type:</div>
+                    <div class="payment-value">Personal</div>
+                </div>
+                <div class="payment-info">
+                    <div class="payment-label">Account Name:</div>
+                    <div class="payment-value">AdNova Pro</div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Amount (৳500 for VIP)</label>
+                <input type="number" class="form-input" id="depositAmount" value="500" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Transaction ID</label>
+                <input type="text" class="form-input" id="trxId" placeholder="Enter transaction ID">
+            </div>
+            
+            <button class="btn btn-primary" id="submitDepositBtn">
+                <i class="fas fa-paper-plane"></i> Submit Deposit
+            </button>
+        </div>
+        
+        <!-- Temporary payment numbers -->
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-info-circle"></i> Payment Details
+            </div>
+            
+            <div class="payment-details active">
+                <div class="payment-info">
+                    <div class="payment-label">Bkash Number:</div>
+                    <div class="payment-value">+880 17XX-XXXXXX</div>
+                </div>
+                <div class="payment-info">
+                    <div class="payment-label">Nagad Number:</div>
+                    <div class="payment-value">+880 18XX-XXXXXX</div>
+                </div>
+                <div class="payment-info">
+                    <div class="payment-label">Rocket Number:</div>
+                    <div class="payment-value">+880 19XX-XXXXXX</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Referral Section -->
+    <div class="container" id="referralSection">
+        <div class="app-header">
+            <div class="logo"><i class="fas fa-rocket"></i>AdNova Pro</div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-user-friends"></i> Referral Program
+            </div>
+            
+            <div class="referral-container">
+                <p>Invite friends and earn ৳5 for each successful referral!</p>
+                
+                <div class="referral-code" id="referralCode">ADNOVA-XXXX</div>
+                
+                <button class="btn btn-primary" id="copyReferralBtn">
+                    <i class="fas fa-copy"></i> Copy Referral Link
+                </button>
+                
+                <div class="referral-stats">
+                    <div class="referral-stat">
+                        <div class="referral-value" id="totalReferrals">0</div>
+                        <div class="stat-label">Total Referrals</div>
+                    </div>
+                    <div class="referral-stat">
+                        <div class="referral-value" id="referralEarnings">৳0.00</div>
+                        <div class="stat-label">Referral Earnings</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Profile Section -->
+    <div class="container" id="profileSection">
+        <div class="app-header">
+            <div class="logo"><i class="fas fa-rocket"></i>AdNova Pro</div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-user"></i> Your Profile
+            </div>
+            
+            <div class="user-profile" style="text-align: center;">
+                <div style="margin: 0 auto 20px; display: inline-block;">
+                    <div class="user-avatar" id="profileAvatar" style="width: 90px; height: 90px; font-size: 2.5rem;">U</div>
+                </div>
+                
+                <div class="profile-info">
+                    <div class="profile-name" id="profileName" style="font-size: 22px; margin-bottom: 5px;">User Name</div>
+                    <div class="profile-username" id="profileUsername" style="color: var(--accent); margin-bottom: 25px;">@username</div>
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <div class="stat-value" id="totalEarned">৳0.00</div>
+                        <div class="stat-label">Total Earned</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="stat-value" id="totalWithdrawn">৳0.00</div>
+                        <div class="stat-label">Total Withdrawn</div>
+                    </div>
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <div class="stat-value" id="totalReferralsProfile">0</div>
+                        <div class="stat-label">Total Referrals</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="stat-value" id="referralEarningsProfile">৳0.00</div>
+                        <div class="stat-label">Referral Earnings</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Panel (Visible only to admin) -->
+    <div class="container" id="adminPanel">
+        <div class="app-header">
+            <div class="logo"><i class="fas fa-user-shield"></i> Admin Panel</div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-cog"></i> Admin Controls
+            </div>
+            
+            <div class="admin-section">
+                <div class="form-group">
+                    <label class="form-label">Telegram Bot Token</label>
+                    <input type="text" class="form-input" value="7641873839:AAHt4JsRYUMQDHrrEHdOB-No3ZrtJQeDxXc" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Bot Username</label>
+                    <input type="text" class="form-input" value="@AdNovabd_bot" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Add Telegram Channel</label>
+                    <input type="text" class="form-input" id="channelInput" placeholder="@channelusername">
+                    <button class="btn btn-primary" id="saveAdminSettingsBtn">Save Settings</button>
+                </div>
+            </div>
+            
+            <div class="admin-section">
+                <div class="card-title">
+                    <i class="fas fa-money-bill-wave"></i> Deposit Approvals
+                </div>
+                
+                <div id="depositRequests">
+                    <!-- Dynamic content will be loaded here -->
+                </div>
+            </div>
+            
+            <div class="admin-section">
+                <div class="card-title">
+                    <i class="fas fa-user-shield"></i> VIP Activation Requests
+                </div>
+                
+                <div id="vipRequests">
+                    <!-- Dynamic content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active" data-section="earnSection">
+            <i class="fas fa-ad"></i>
+            <span>Earn</span>
+        </a>
+        <a href="#" class="nav-item" data-section="withdrawSection">
+            <i class="fas fa-money-bill"></i>
+            <span>Withdraw</span>
+        </a>
+        <a href="#" class="nav-item" data-section="referralSection">
+            <i class="fas fa-user-friends"></i>
+            <span>Referral</span>
+        </a>
+        <a href="#" class="nav-item" data-section="profileSection">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+    
+    <script>
+        // Initialize Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        
+        // User data with VIP status
+        let userData = {
+            balance: 0,
+            dailyEarnings: 0,
+            totalEarnings: 0,
+            adsWatchedToday: 0,
+            isVIP: false,
+            vipUntil: null,
+            referrals: 0,
+            referralEarnings: 0,
+            totalWithdrawn: 0,
+            userId: "",
+            username: "",
+            firstName: "",
+            depositRequests: [],
+            vipRequests: []
+        };
+        
+        // DOM Elements
+        const elements = {
+            userBalance: document.getElementById('userBalance'),
+            dailyEarnings: document.getElementById('dailyEarnings'),
+            totalEarnings: document.getElementById('totalEarnings'),
+            adsWatched: document.getElementById('adsWatched'),
+            vipBadge: document.getElementById('vipBadge'),
+            vipOfferBanner: document.getElementById('vipOfferBanner'),
+            walletCard: document.getElementById('walletCard'),
+            earnRateText: document.getElementById('earnRateText'),
+            earnRateText2: document.getElementById('earnRateText2'),
+            vipEarnRate: document.getElementById('vipEarnRate'),
+            vipEarnRate2: document.getElementById('vipEarnRate2'),
+            adminPanel: document.getElementById('adminPanel'),
+            referralCode: document.getElementById('referralCode'),
+            totalReferrals: document.getElementById('totalReferrals'),
+            referralEarnings: document.getElementById('referralEarnings'),
+            totalEarned: document.getElementById('totalEarned'),
+            totalWithdrawn: document.getElementById('totalWithdrawn'),
+            totalReferralsProfile: document.getElementById('totalReferralsProfile'),
+            referralEarningsProfile: document.getElementById('referralEarningsProfile'),
+            userAvatar: document.getElementById('userAvatar'),
+            profileAvatar: document.getElementById('profileAvatar'),
+            userTelegram: document.getElementById('userTelegram'),
+            profileName: document.getElementById('profileName'),
+            profileUsername: document.getElementById('profileUsername'),
+            loadingSpinner: document.getElementById('loadingSpinner'),
+            notification: document.getElementById('notification'),
+            depositSection: document.getElementById('depositSection'),
+            depositRequests: document.getElementById('depositRequests'),
+            vipRequests: document.getElementById('vipRequests')
+        };
+        
+        // Initialize the app
+        function initApp() {
+            // Show loading spinner
+            elements.loadingSpinner.style.display = 'block';
+            
+            // Simulate loading user data
+            setTimeout(() => {
+                // Get user info from Telegram
+                if (tg.initDataUnsafe.user) {
+                    const user = tg.initDataUnsafe.user;
+                    userData.userId = user.id;
+                    userData.username = user.username || `user${user.id}`;
+                    userData.firstName = user.first_name || "User";
+                    
+                    // Set UI elements
+                    elements.userTelegram.textContent = '@' + userData.username;
+                    elements.profileUsername.textContent = '@' + userData.username;
+                    elements.userAvatar.textContent = userData.firstName.charAt(0);
+                    elements.profileName.textContent = userData.firstName;
+                    elements.profileAvatar.textContent = userData.firstName.charAt(0);
+                    
+                    // Generate referral code based on user ID and bot username
+                    elements.referralCode.textContent = `ADNOVA-${userData.userId}-${userData.username}`;
+                }
+                
+                // Set initial data
+                userData.balance = 0;
+                userData.dailyEarnings = 0;
+                userData.totalEarnings = 0;
+                userData.adsWatchedToday = 0;
+                userData.referrals = 0;
+                userData.referralEarnings = 0;
+                userData.totalWithdrawn = 0;
+                
+                // Load admin data if admin
+                if (userData.userId == 5989402185) {
+                    loadAdminData();
+                    // Show admin panel in nav
+                    const adminNavItem = document.createElement('a');
+                    adminNavItem.className = 'nav-item';
+                    adminNavItem.setAttribute('data-section', 'adminPanel');
+                    adminNavItem.innerHTML = `
+                        <i class="fas fa-user-shield"></i>
+                        <span>Admin</span>
+                    `;
+                    document.querySelector('.bottom-nav').appendChild(adminNavItem);
+                }
+                
+                // Hide loading spinner
+                elements.loadingSpinner.style.display = 'none';
+                
+                // Update UI
+                updateUI();
+                
+                // Add event listeners
+                setupEventListeners();
+                
+                // Expand WebApp
+                tg.expand();
+            }, 1500);
+        }
+        
+        // Load admin data
+        function loadAdminData() {
+            // Simulate loading admin data
+            setTimeout(() => {
+                userData.depositRequests = [
+                    { username: "@user123", method: "Bkash", amount: 500, trxId: "7HJK89HL" },
+                    { username: "@vip_user", method: "Nagad", amount: 1000, trxId: "8KLM90IJ" }
+                ];
+                
+                userData.vipRequests = [
+                    { username: "@user123", amount: 500 }
+                ];
+                
+                renderAdminData();
+            }, 500);
+        }
+        
+        // Render admin data
+        function renderAdminData() {
+            // Clear existing content
+            elements.depositRequests.innerHTML = '';
+            elements.vipRequests.innerHTML = '';
+            
+            // Render deposit requests
+            userData.depositRequests.forEach(request => {
+                const depositItem = document.createElement('div');
+                depositItem.className = 'transaction-item';
+                depositItem.innerHTML = `
+                    <div class="transaction-info">
+                        <div class="transaction-title">${request.username}</div>
+                        <div class="transaction-meta">${request.method} - ৳${request.amount} - TRX: ${request.trxId}</div>
+                    </div>
+                    <div class="transaction-amount credit">+৳${request.amount}</div>
+                `;
+                elements.depositRequests.appendChild(depositItem);
+            });
+            
+            // Render VIP requests
+            userData.vipRequests.forEach(request => {
+                const vipItem = document.createElement('div');
+                vipItem.className = 'transaction-item';
+                vipItem.innerHTML = `
+                    <div class="transaction-info">
+                        <div class="transaction-title">${request.username}</div>
+                        <div class="transaction-meta">Deposit: ৳${request.amount}</div>
+                    </div>
+                    <button class="btn btn-primary" style="padding: 8px 15px; width: auto;" onclick="approveVIP('${request.username}')">
+                        Activate VIP
+                    </button>
+                `;
+                elements.vipRequests.appendChild(vipItem);
+            });
+        }
+        
+        // Approve VIP
+        function approveVIP(username) {
+            showNotification(`VIP activated for ${username}`, "success");
+            // In a real app, you would send this to your backend
+        }
+        
+        // Update UI with user data
+        function updateUI() {
+            elements.userBalance.textContent = userData.balance.toFixed(2);
+            elements.dailyEarnings.textContent = '৳' + userData.dailyEarnings.toFixed(2);
+            elements.totalEarnings.textContent = '৳' + userData.totalEarnings.toFixed(2);
+            elements.adsWatched.textContent = userData.adsWatchedToday + '/50';
+            elements.totalReferrals.textContent = userData.referrals;
+            elements.referralEarnings.textContent = '৳' + userData.referralEarnings.toFixed(2);
+            elements.totalEarned.textContent = '৳' + userData.totalEarnings.toFixed(2);
+            elements.totalWithdrawn.textContent = '৳' + userData.totalWithdrawn.toFixed(2);
+            elements.totalReferralsProfile.textContent = userData.referrals;
+            elements.referralEarningsProfile.textContent = '৳' + userData.referralEarnings.toFixed(2);
+            
+            // VIP status UI
+            if (userData.isVIP) {
+                elements.vipBadge.style.display = 'inline-block';
+                elements.vipOfferBanner.style.display = 'none';
+                elements.walletCard.classList.add('vip');
+                elements.earnRateText.textContent = 'Earn ৳0.20 to ৳0.60 per ad (VIP Bonus)';
+                elements.earnRateText2.textContent = 'Earn ৳0.20 to ৳0.60 per ad (VIP Bonus)';
+                elements.vipEarnRate.style.display = 'flex';
+                elements.vipEarnRate2.style.display = 'flex';
+            } else {
+                elements.vipBadge.style.display = 'none';
+                elements.walletCard.classList.remove('vip');
+                elements.earnRateText.textContent = 'Earn ৳0.10 to ৳0.30 per ad (90% chance)';
+                elements.earnRateText2.textContent = 'Earn ৳0.10 to ৳0.30 per ad (90% chance)';
+                elements.vipEarnRate.style.display = 'none';
+                elements.vipEarnRate2.style.display = 'none';
+            }
+        }
+        
+        // Function to show ad and reward user
+        function showAd() {
+            if (userData.adsWatchedToday >= 50) {
+                showNotification("You've reached your daily limit of 50 ads!", "warning");
+                return;
+            }
+            
+            // Show loading
+            showNotification("Loading ad...", "info");
+            
+            // Show Monetag ad
+            show_9683187({
+                type: 'inApp',
+                inAppSettings: {
+                    frequency: 2,
+                    capping: 0.1,
+                    interval: 30,
+                    timeout: 5,
+                    everyPage: false
+                }
+            }).then(() => {
+                // Ad watched successfully
+                const reward = calculateReward();
+                userData.balance += reward;
+                userData.dailyEarnings += reward;
+                userData.totalEarnings += reward;
+                userData.adsWatchedToday++;
+                
+                // Update UI
+                updateUI();
+                
+                // Show success notification
+                showNotification(`You earned ৳${reward.toFixed(2)} for watching this ad!`, "success");
+            }).catch(error => {
+                // Ad failed
+                showNotification("Ad failed to load. Please try again.", "danger");
+            });
+        }
+        
+        // Calculate random reward
+        function calculateReward() {
+            const min = userData.isVIP ? 20 : 10;
+            const max = userData.isVIP ? 60 : 30;
+            return (Math.random() * (max - min) + min) / 100;
+        }
+        
+        // Show deposit section for VIP activation
+        function showDepositSection() {
+            elements.depositSection.style.display = 'block';
+            showNotification("Please deposit ৳500 to activate VIP", "info");
+        }
+        
+        // Submit deposit for VIP
+        function submitDeposit() {
+            const trxId = document.getElementById('trxId').value.trim();
+            const method = document.querySelector('.method-card.active').dataset.method;
+            
+            if (!trxId) {
+                showNotification("Please enter your transaction ID", "danger");
+                return;
+            }
+            
+            // Add transaction
+            userData.balance += 500;
+            updateUI();
+            
+            // Reset form
+            document.getElementById('trxId').value = '';
+            
+            showNotification("Deposit submitted for admin approval!", "success");
+            
+            // In a real app, you would send this to your backend
+            if (userData.userId == 5989402185) {
+                // If admin, add to requests list
+                userData.depositRequests.push({
+                    username: `@${userData.username}`,
+                    method: method.charAt(0).toUpperCase() + method.slice(1),
+                    amount: 500,
+                    trxId: trxId
+                });
+                
+                userData.vipRequests.push({
+                    username: `@${userData.username}`,
+                    amount: 500
+                });
+                
+                renderAdminData();
+            }
+        }
+        
+        // Withdrawal Submission
+        function submitWithdrawal() {
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            const method = document.getElementById('withdrawMethod').value;
+            const account = document.getElementById('accountNumber').value.trim();
+            
+            if (!amount || amount < 200) {
+                showNotification("Minimum withdrawal amount is ৳200", "danger");
+                return;
+            }
+            
+            if (amount > userData.balance) {
+                showNotification("Insufficient balance for this withdrawal", "danger");
+                return;
+            }
+            
+            if (!account) {
+                showNotification("Please enter your account number", "danger");
+                return;
+            }
+            
+            userData.balance -= amount;
+            userData.totalWithdrawn += amount;
+            updateUI();
+            
+            // Reset form
+            document.getElementById('withdrawAmount').value = '';
+            document.getElementById('accountNumber').value = '';
+            
+            showNotification(`Withdrawal request of ৳${amount.toFixed(2)} submitted successfully!`, "success");
+        }
+        
+        // Copy referral link
+        function copyReferralLink() {
+            const referralLink = `https://t.me/AdNovabd_bot?start=${userData.userId}`;
+            
+            // Create a temporary textarea to copy text
+            const textarea = document.createElement('textarea');
+            textarea.value = referralLink;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            
+            showNotification("Referral link copied to clipboard!", "success");
+        }
+        
+        // Save admin settings
+        function saveAdminSettings() {
+            const channel = document.getElementById('channelInput').value;
+            
+            if (channel) {
+                showNotification("Channel added successfully!", "success");
+            } else {
+                showNotification("Please enter a channel username", "warning");
+            }
+        }
+        
+        // Switch between sections
+        function switchSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.container').forEach(section => {
+                section.classList.remove('active-section');
+            });
+            
+            // Show the selected section
+            document.getElementById(sectionId).classList.add('active-section');
+            
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-section') === sectionId) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // Hide deposit section when leaving withdraw section
+            if (sectionId !== 'withdrawSection') {
+                elements.depositSection.style.display = 'none';
+            }
+        }
+        
+        // Show notification
+        function showNotification(message, type) {
+            const notification = elements.notification;
+            notification.textContent = message;
+            notification.className = "notification " + type;
+            notification.style.display = 'block';
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Button event listeners
+            document.getElementById('watchAdBtn').addEventListener('click', showAd);
+            document.getElementById('vipUpgradeBtn').addEventListener('click', () => switchSection('withdrawSection'));
+            document.getElementById('submitWithdrawalBtn').addEventListener('click', submitWithdrawal);
+            document.getElementById('copyReferralBtn').addEventListener('click', copyReferralLink);
+            document.getElementById('saveAdminSettingsBtn').addEventListener('click', saveAdminSettings);
+            document.getElementById('showDepositBtn').addEventListener('click', showDepositSection);
+            document.getElementById('submitDepositBtn').addEventListener('click', submitDeposit);
+            
+            // Payment method selection
+            document.querySelectorAll('.method-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    // Remove active class from all cards
+                    document.querySelectorAll('.method-card').forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked card
+                    card.classList.add('active');
+                });
+            });
+            
+            // Navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const sectionId = item.getAttribute('data-section');
+                    switchSection(sectionId);
+                });
+            });
+        }
+        
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+        
+        // Make approveVIP function available globally
+        window.approveVIP = approveVIP;
+    </script>
+</body>
+  </html>
+
+  ‎এখানকার কোন সেকশন সঠিকভাবে কাজ করতেছে না তুমি eror problem  গুলো ফেক্সট করে দাও home page a Watch Ads & Earn Money
+‎Earn ৳0.10 to ৳0.30 per ad (90% chance)
+‎
+‎এই সেকশনটা এখান থেকে রিমুভ করে দাও 
+‎
+‎
+‎// Telegram WebApp initialization
+‎        const tg = window.Telegram.WebApp;
+‎        
+‎        // Bot configuration
+‎        const BOT_TOKEN = 8390495110:AAELboxSSxFHBuGtqRuQoHtv_Xrk1oZLxck
+‎        const ADMIN_ID = '5989402185';
+‎        const BOT_USERNAME = '@AdNovabd_bot';
